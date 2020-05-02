@@ -53,3 +53,33 @@ export const findHighestShareScore = (shareScores) =>
     console.log(highestShareScore);
     return highestShareScore;
 };
+
+export const findNextGuess = (guesses, words) =>
+{
+    //based on the likeness score of each guess, find a word that matches the likeness of each guess
+    for (let word in words)
+    {
+        if (!guesses.includes(word)) {
+            let validGuess = true;
+            for (const [guess, likeness] of Object.entries(guesses))
+            {
+                let shareScore = 0;
+                for (let letterIndex = 0; letterIndex < word.length; letterIndex++)
+                {
+                    if (word[letterIndex] === guess[letterIndex])
+                        shareScore+=1;
+                }
+                if (!shareScore === likeness)
+                {
+                    //word does not match likeness of all guesses; go to next word
+                    validGuess = false;
+                    break;
+                }
+            }
+
+            //found word that matches likeness of all guesses
+            if (validGuess)
+                return word;
+        }
+    }
+};
