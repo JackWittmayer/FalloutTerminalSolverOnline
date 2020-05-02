@@ -1,11 +1,15 @@
 import React, {useState} from 'react';
 import logo from '../../assets/logo.svg';
+import * as puzzleSolver from "../../puzzleSolver.js"
 //import './Home.css';
 
 
 const Home = () => {
-    const [words, setWords] = useState(["","","","","","","","","",""]);
-
+    const [words, setWords] = useState(["","","",""]);
+    const findCommonWord = () =>
+    {
+        console.log(words[puzzleSolver.findHighestShareScore(puzzleSolver.findShareScores(words))]);
+    };
     //main function that handles the entered words changing
     const updateWords = (newValue, index) =>
     {
@@ -35,6 +39,7 @@ const Home = () => {
                     <input type="submit" value="Submit" />
                 </form>
             ))}
+            <button onClick={findCommonWord}>Find Share Scores</button>
         </div>
     );
 };

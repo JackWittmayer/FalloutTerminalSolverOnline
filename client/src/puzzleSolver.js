@@ -1,7 +1,11 @@
 export const findShareScores = (words) =>
 {
     //0. Create share score array
-    const shareScores = [0,0,0,0,0,0,0,0,0,0];
+    let shareScores = [];
+    for (let i = 0; i < words.length; i++)
+    {
+        shareScores.push(0);
+    }
     //1. Compare each letter from first word with each letter from second word
     //2. Tally up each shared letter in shareScores array for first and second word
     //3. Repeat with first word and third word until first word and last word
@@ -15,6 +19,7 @@ export const findShareScores = (words) =>
             //make sure are word lengths are the same before comparing
             if (leftWord.length !== rightWord.length)
             {
+                console.log("Error: At least one word has a missing or extra letter.");
                 return "Error: At least one word has a missing or extra letter."
             }
 
@@ -29,6 +34,7 @@ export const findShareScores = (words) =>
             }
         }
     }
+    console.log("share scores" , shareScores);
     return shareScores;
 };
 
@@ -44,5 +50,6 @@ export const findHighestShareScore = (shareScores) =>
             wordIndex = shareScoreIndex;
         }
     }
+    console.log(highestShareScore);
     return highestShareScore;
 };
