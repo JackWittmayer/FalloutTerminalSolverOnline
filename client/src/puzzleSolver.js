@@ -25,7 +25,7 @@ export const findShareScores = (words) =>
 
             for (let letterIndex = 0; letterIndex < leftWord.length; letterIndex++)
             {
-                if (leftWord[letterIndex] === rightWord[letterIndex])
+                if (leftWord[letterIndex].toLowerCase() === rightWord[letterIndex].toLowerCase())
                 {
                     //if letters are matching, increase shareScores tally for both words
                     shareScores[leftWordIndex] += 1;
@@ -69,7 +69,7 @@ export const findNextGuess = (guesses, likenesses, words) =>
                 let shareScore = 0;
                 for (let letterIndex = 0; letterIndex < word.length; letterIndex++)
                 {
-                    if (word[letterIndex] === guesses[i][letterIndex])
+                    if (word[letterIndex].toLowerCase() === guesses[i][letterIndex].toLowerCase())
                         shareScore+=1;
                 }
                 if (shareScore !== likenesses[i])

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import logo from '../../assets/logo.svg';
 import * as puzzleSolver from "../../puzzleSolver.js"
 import {findNextGuess} from "../../puzzleSolver";
+import Grid from '@material-ui/core/Grid';
 //import './Home.css';
 
 const ArrayButton = (props) =>
@@ -20,6 +21,19 @@ const Home = () => {
     const [likenesses, setLikenesses] = useState([0, 0, 0, 0]);
     const [likenessSubmitted, setLikenessSubmitted] = useState([false, false, false, false]);
     const [password, setPassword] = useState("");
+
+    const addWord = () =>
+    {
+        const newWords = [...words];
+        newWords.push("");
+        setWords(newWords);
+    };
+    const removeWord = () =>
+    {
+        const newWords = [...words];
+        newWords.pop();
+        setWords(newWords);
+    }
     const findCommonWord = () =>
     {
         const commonWord = words[puzzleSolver.findHighestShareScore(puzzleSolver.findShareScores(words))]
@@ -91,7 +105,11 @@ const Home = () => {
                     </label>
                 </form>
             ))}
-            <button onClick={findCommonWord}>Find word with most letters in common</button>
+            <Grid>
+             <button onClick={findCommonWord}>Find word with most letters in common</button>
+                <button onClick = {addWord}>Add word</button>
+                <button onClick={removeWord}>Remove word</button>
+            </Grid>
             <div>
                 {guesses.map((item, index) =>
                     (
