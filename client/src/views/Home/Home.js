@@ -91,7 +91,7 @@ const Home = () => {
                     </label>
                 </form>
             ))}
-            <button onClick={findCommonWord}>Find Share Scores</button>
+            <button onClick={findCommonWord}>Find word with most letters in common</button>
             <div>
                 {guesses.map((item, index) =>
                     (
