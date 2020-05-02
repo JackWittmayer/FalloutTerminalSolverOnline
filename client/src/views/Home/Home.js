@@ -1,25 +1,52 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from '../../assets/logo.svg';
-import './Home.css';
+//import './Home.css';
 
-function Home() {
+
+const Home = () => {
+    const [words, setWords] = useState(["","","","","","","","","",""]);
+
+    //main function that handles the entered words changing
+    const updateWords = (newValue, index) =>
+    {
+        const newWords = words.map((item, i) => {
+        //loop through newWords and update only the word that is being edited
+        if (i === index)
+        {
+            return newValue;
+        }
+        else
+        {
+            return words[i];
+        }
+    });
+        setWords(newWords);
+    };
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                </a>
-            </header>
+            {words.map((item, index) =>
+            (
+                //allows each WordInput component to have an index
+                <form>
+                    {"Word " + (index+1)}
+                    <label>
+                        <WordInput updateWord = {updateWords} index = {index} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+            ))}
         </div>
     );
-}
+};
+
+const WordInput = (props) =>
+{
+    const updateWord = (e) =>
+    {
+        //update the word's state using the text entered and its index
+        props.updateWord(e.target.value, props.index);
+    };
+    return <input onChange = {updateWord} type = "text"/>
+};
 
 export default Home;
