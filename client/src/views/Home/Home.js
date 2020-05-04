@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import logo from '../../assets/logo.svg';
 import * as puzzleSolver from "../../puzzleSolver.js"
 import {findNextGuess} from "../../puzzleSolver";
 import Grid from '@material-ui/core/Grid';
@@ -16,29 +15,41 @@ const ArrayButton = (props) =>
 
 const Home = () => {
     const [words, setWords] = useState(["","","",""]);
-    const [nextGuess, setNextGuess] = useState("");
     const [guesses, setGuesses] = useState([]);
     const [likenesses, setLikenesses] = useState([0, 0, 0, 0]);
     const [likenessSubmitted, setLikenessSubmitted] = useState([false, false, false, false]);
     const [password, setPassword] = useState("");
+
+    //all words should be the same length so keep track of this length and show errors for words that don't match it
+    const [wordLength, setWordLength] = useState(0);
+
+    //don't show word length error while typing word so keep track of what word is being edited
+    const [isBeingEdited, setIsBeingEdited] = useState([false,false,false,false]);
 
     const addWord = () =>
     {
         const newWords = [...words];
         newWords.push("");
         setWords(newWords);
+
+        const newEdits = [...isBeingEdited];
+        newEdits.push(false);
+        setIsBeingEdited(newEdits);
     };
     const removeWord = () =>
     {
         const newWords = [...words];
         newWords.pop();
         setWords(newWords);
-    }
+
+        const newEdits = [...isBeingEdited];
+        newEdits.pop();
+        setIsBeingEdited(newEdits);
+    };
     const findCommonWord = () =>
     {
-        const commonWord = words[puzzleSolver.findHighestShareScore(puzzleSolver.findShareScores(words))]
+        const commonWord = words[puzzleSolver.findHighestShareScore(puzzleSolver.findShareScores(words))];
         console.log(commonWord);
-        setNextGuess(commonWord);
         const newGuesses = [...guesses];
         newGuesses.push(commonWord);
         setGuesses(newGuesses);
@@ -46,8 +57,20 @@ const Home = () => {
     //main function that handles the entered words changing
     const updateWords = (newValue, index) =>
     {
+        //mark every word as not being edited except the one being edited
+        const newEdits = [];
+        for (let i = 0; i < isBeingEdited.length; i++)
+            newEdits.push(false);
+        newEdits[index] = true;
+        setIsBeingEdited(newEdits);
+
         const newWords = words.map((item, i) => {
         //loop through newWords and update only the word that is being edited
+        if (i === 0)
+        {
+            //make the word length set to the length of the first word
+            setWordLength(words[i].length);
+        }
         if (i === index)
         {
             return newValue;
@@ -98,12 +121,17 @@ const Home = () => {
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
-                <form>
+                <Grid>
                     {"Word " + (index+1)}
-                    <label>
                         <WordInput updateWord = {updateWords} index = {index} />
-                    </label>
-                </form>
+                        {!isBeingEdited[index] && words[index].length !== 0
+                            && words[index].length < wordLength && index !==0 ?
+                            <span>This word is shorter than the first word</span> : null}
+                        {!isBeingEdited[index] && words[index].length !== 0
+                            && words[index].length > wordLength && index !==0 ?
+                            <span>This word is longer than the first word</span> : null}
+
+                </Grid>
             ))}
             <Grid>
              <button onClick={findCommonWord}>Find word with most letters in common</button>
