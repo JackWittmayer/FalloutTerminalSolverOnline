@@ -51,7 +51,7 @@ export const findHighestShareScore = (shareScores) =>
         }
     }
     console.log(highestShareScore);
-    return highestShareScore;
+    return wordIndex;
 };
 
 export const findNextGuess = (guesses, likenesses, words) =>
