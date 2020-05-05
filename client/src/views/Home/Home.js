@@ -1,8 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import * as puzzleSolver from "../../puzzleSolver.js"
 import {findNextGuess} from "../../puzzleSolver";
 import Grid from '@material-ui/core/Grid';
+import ImageUploader from "react-images-upload";
+import * as tesseract from "tesseract.js";
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 //import './Home.css';
+const useStyles = makeStyles(theme => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
+
 
 const ArrayButton = (props) =>
 {
@@ -14,6 +34,7 @@ const ArrayButton = (props) =>
 };
 
 const Home = () => {
+    const [picture, setPicture] = useState();
     const [words, setWords] = useState(["","","",""]);
     const [guesses, setGuesses] = useState([]);
     const [likenesses, setLikenesses] = useState([0, 0, 0, 0]);
@@ -25,6 +46,8 @@ const Home = () => {
 
     //don't show word length error while typing word so keep track of what word is being edited
     const [isBeingEdited, setIsBeingEdited] = useState([false,false,false,false]);
+
+    const classes = useStyles();
 
     const addWord = () =>
     {
@@ -115,21 +138,56 @@ const Home = () => {
         newGuesses.push(nextGuess);
         setGuesses(newGuesses);
     };
+    const onDrop = (picture) =>
+    {
+        setPicture(picture[0]);
+        console.log(picture);
+    };
+    const findText = async () =>
+    {
+        tesseract.recognize(
+            picture,
+            'eng',
+            { logger: m => console.log(m) }
+        ).then(({ data: { text } }) => {
+            console.log(text);
+        })
+    };
+    useEffect(() =>
+    {
+        if (picture)
+        {
+            findText();
+        }
+    });
     return (
-        <div className="App">
+        <Container component="main" maxWidth= "md">
+        <div className={classes.paper}>
+            <h3>Upload Image of terminal</h3>
+            <ImageUploader
+                withIcon={true}
+                buttonText='Choose images'
+                onChange={onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+            />
             <div>{password ? <h1>{"Password found! It's " + password}</h1> : null}</div>
+            <h3>Or enter words manually</h3>
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
-                <Grid>
+                <Grid xs = {12}>
+                    <label  style = {{position: ""}}>
                     {"Word " + (index+1)}
                         <WordInput updateWord = {updateWords} index = {index} />
+                    </label>
                         {!isBeingEdited[index] && words[index].length !== 0
-                            && words[index].length < wordLength && index !==0 ?
-                            <span>This word is shorter than the first word</span> : null}
+                        && words[index].length < wordLength && index !==0 ?
+                            <span style = {{color: '#FF0000'}}>Too short</span> : null}
+
                         {!isBeingEdited[index] && words[index].length !== 0
                             && words[index].length > wordLength && index !==0 ?
-                            <span>This word is longer than the first word</span> : null}
+                            <span style = {{color: '#FF0000'}}>Too long</span> : null}
 
                 </Grid>
             ))}
@@ -152,6 +210,7 @@ const Home = () => {
                     ))}
             </div>
         </div>
+        </Container>
     );
 };
 
