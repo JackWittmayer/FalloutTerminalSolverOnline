@@ -6,9 +6,10 @@ import ImageUploader from "react-images-upload";
 import * as tesseract from "tesseract.js";
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-//import './Home.css';
+import './Home.css';
 const useStyles = makeStyles(theme => ({
     paper: {
+
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
@@ -149,8 +150,34 @@ const Home = () => {
             picture,
             'eng',
             { logger: m => console.log(m) }
-        ).then(({ data: { text } }) => {
-            console.log(text);
+        ).then(({ data}) => {
+            const lines = data.lines;
+            console.log("unfiltered lines", lines);
+            console.log("filtering lines...");
+            let filteredWords = [];
+            for (let i = 0; i < lines.length; i++)
+            {
+                const line = lines[i];
+                for (let j = 0; j < line.words.length; j++)
+                {
+                    const wordText = line.words[j].text;
+                    //make sure word isn't memory address ex: (0xB446) from terminal
+                    if (wordText.includes("0x") || wordText.includes("Ox")
+                    || wordText.includes("Bx") || wordText.includes("8x")
+                    || wordText.includes("0X") || wordText.includes("OX")
+                    || wordText.includes("BX") || wordText.includes("8X"))
+                    {
+                        continue;
+                    }
+                    //make sure word has at least one capital letter in it
+                    if (!/[A-Z]/.test(wordText))
+                    {
+                        continue;
+                    }
+                    filteredWords.push(wordText);
+                    console.log("filtered words", filteredWords);
+                }
+            }
         })
     };
     useEffect(() =>
@@ -161,9 +188,10 @@ const Home = () => {
         }
     });
     return (
-        <Container component="main" maxWidth= "md">
-        <div className={classes.paper}>
-            <h3>Upload Image of terminal</h3>
+        <p className="App">
+        <Container  component="main" maxWidth= "md">
+        <div>
+            <h3 style = {{color: '#02c600'}}>Upload Image of terminal</h3>
             <ImageUploader
                 withIcon={true}
                 buttonText='Choose images'
@@ -171,13 +199,13 @@ const Home = () => {
                 imgExtension={['.jpg', '.gif', '.png', '.gif']}
                 maxFileSize={5242880}
             />
-            <div>{password ? <h1>{"Password found! It's " + password}</h1> : null}</div>
-            <h3>Or enter words manually</h3>
+            <div>{password ? <h1 style = {{color: '#02c600'}}>{"Password found! It's " + password}</h1> : null}</div>
+            <h3 style = {{color: '#02c600'}}>Or enter words manually</h3>
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
-                <Grid xs = {12}>
-                    <label  style = {{position: ""}}>
+                <Grid>
+                    <label style = {{color: '#02c600'}}>
                     {"Word " + (index+1)}
                         <WordInput updateWord = {updateWords} index = {index} />
                     </label>
@@ -211,6 +239,7 @@ const Home = () => {
             </div>
         </div>
         </Container>
+        </p>
     );
 };
 
