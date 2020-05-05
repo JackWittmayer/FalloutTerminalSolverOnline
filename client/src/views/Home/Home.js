@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import * as puzzleSolver from "../../puzzleSolver.js"
 import {findNextGuess} from "../../puzzleSolver";
 import Grid from '@material-ui/core/Grid';
-import ImageUploader from "react-images-upload";
 import * as tesseract from "tesseract.js";
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -192,13 +191,6 @@ const Home = () => {
         <Container  component="main" maxWidth= "md">
         <div>
             <h3 style = {{color: '#02c600'}}>Upload Image of terminal</h3>
-            <ImageUploader
-                withIcon={true}
-                buttonText='Choose images'
-                onChange={onDrop}
-                imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                maxFileSize={5242880}
-            />
             <div>{password ? <h1 style = {{color: '#02c600'}}>{"Password found! It's " + password}</h1> : null}</div>
             <h3 style = {{color: '#02c600'}}>Or enter words manually</h3>
             {words.map((item, index) =>

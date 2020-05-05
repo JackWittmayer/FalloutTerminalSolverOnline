@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import ImageUploader from 'react-images-upload';
 import * as tesseract from "tesseract.js";
 
 const Demo = (props) =>
@@ -32,13 +31,7 @@ const Demo = (props) =>
     };
 
     return(
-        <ImageUploader
-            withIcon={true}
-            buttonText='Choose images'
-            onChange={onDrop}
-            imgExtension={['.jpg', '.gif', '.png', '.gif']}
-            maxFileSize={5242880}
-        />
+
     );
 };
 
