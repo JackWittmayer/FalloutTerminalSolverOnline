@@ -8,7 +8,6 @@ import Demo from "./views/demo"
 const App = () => {
   return (
     <div>
-      <NavBar />
       <Switch>
         <Route exact path="/Home" component={Home} />
         <Route exact path="/demo" component ={Demo}/>

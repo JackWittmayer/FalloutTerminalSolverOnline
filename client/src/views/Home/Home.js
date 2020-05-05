@@ -163,14 +163,14 @@ const Home = () => {
         <p className= "App">
         <Container component="main" maxWidth= "md">
         <div className={classes.paper}>
-            <h3>Upload Image of terminal</h3>
-            <div>{password ? <h1>{"Password found! It's " + password}</h1> : null}</div>
-            <h3>Or enter words manually</h3>
+            <h3  style = {{color: '#00ff10'}}>Upload Image of terminal</h3>
+            <div>{password ? <h1 style = {{color: '#00ff10'}}>{"Password found! It's " + password}</h1> : null}</div>
+            <h3  style = {{color: '#00ff10'}}>Or enter words manually</h3>
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
                 <Grid xs = {12}>
-                    <label  style = {{position: ""}}>
+                    <label  style = {{color: '#00ff10'}}>
                     {"Word " + (index+1)}
                         <WordInput updateWord = {updateWords} index = {index} />
                     </label>
@@ -185,15 +185,15 @@ const Home = () => {
                 </Grid>
             ))}
             <Grid>
-             <button onClick={findCommonWord}>Find word with most letters in common</button>
-                <button onClick = {addWord}>Add word</button>
-                <button onClick={removeWord}>Remove word</button>
+             <button  style = {{color: '#00ff10'}} onClick={findCommonWord}>Find word with most letters in common</button>
+                <button  style = {{color: '#00ff10'}} onClick = {addWord}>Add word</button>
+                <button  style = {{color: '#00ff10'}} onClick={removeWord}>Remove word</button>
             </Grid>
             <div>
                 {guesses.map((item, index) =>
                     (
                         //allows each WordInput component to have an index
-                        <form>
+                        <form style = {{color: '#00ff10'}}>
                             {"Click "+ guesses[index] + " and submit its likeness here:"}
                             <label>
                                 <WordInput disabled = {likenessSubmitted[index]} updateWord = {updateLikenesses} index = {index} />
