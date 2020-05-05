@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import * as tesseract from "tesseract.js";
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-//import './Home.css';
+import './Home.css';
 const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -160,6 +160,7 @@ const Home = () => {
         }
     });
     return (
+        <p className= "App">
         <Container component="main" maxWidth= "md">
         <div className={classes.paper}>
             <h3>Upload Image of terminal</h3>
@@ -203,6 +204,7 @@ const Home = () => {
             </div>
         </div>
         </Container>
+        </p>
     );
 };
 
