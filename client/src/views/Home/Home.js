@@ -36,7 +36,7 @@ const ArrayButton = (props) =>
 
 const Home = () => {
     const [picture, setPicture] = useState();
-    const [words, setWords] = useState(["","","",""]);
+    const [words, setWords] = useState(["","","","", "", "", "", "", "", "", "", ""]);
     const [guesses, setGuesses] = useState([]);
     const [likenesses, setLikenesses] = useState([0, 0, 0, 0]);
     const [likenessSubmitted, setLikenessSubmitted] = useState([false, false, false, false]);
