@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import * as puzzleSolver from "../../puzzleSolver.js"
-import {findNextGuess} from "../../puzzleSolver";
+import {findHighestShareScore, findNextGuess, findShareScores} from "../../puzzleSolver";
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -141,17 +141,17 @@ const Home = () => {
         const newLikenessSubmitted = [...likenessSubmitted];
         newLikenessSubmitted[index] = true;
         setLikenessSubmitted(newLikenessSubmitted);
-        const nextGuesses = findNextGuess(guesses, likenesses, words);
-        if (nextGuesses.length === 1)
+        const possibleGuesses = findNextGuess(guesses, likenesses, words);
+        if (possibleGuesses.length === 1)
         {
             //only one guess left so it must be the password
             //password found = true
-            setPassword(nextGuesses[0]);
+            setPassword(possibleGuesses[0]);
             return;
         }
-        const nextGuess = nextGuesses[0];
+        const bestGuess = words[findHighestShareScore(findShareScores(possibleGuesses))];
         const newGuesses = [...guesses];
-        newGuesses.push(nextGuess);
+        newGuesses.push(bestGuess);
         setGuesses(newGuesses);
     };
     const uploadPicture = (event) =>
