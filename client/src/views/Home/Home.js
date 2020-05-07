@@ -29,12 +29,12 @@ const ArrayButton = (props) =>
     {
         props.submit(props.index);
     };
-    return <button disabled = {props.disabled} type = "button" onClick={submit}>Submit</button>
+    return <button disabled = {props.disabled} type = "button" onClick={submit}>SUBMIT</button>
 };
 
 const greenText =
 {
-    color: "#00ff10",
+    color: "green",
     fontFamily: 'Share Tech'
 };
 
@@ -46,6 +46,7 @@ const Home = () => {
     const [likenessSubmitted, setLikenessSubmitted] = useState([false, false, false, false]);
     const [password, setPassword] = useState("");
     const [possibleWords, setPossibleWords] = useState(["","","","", "","","","", "","","",""]);
+    const [allWordsEntered, setAllWordsEntered] = useState(false);
 
     //all words should be the same length so keep track of this length and show errors for words that don't match it
     const [wordLength, setWordLength] = useState(0);
@@ -188,23 +189,35 @@ const Home = () => {
         {
             setPossibleWords(words);
         }
+        //enable start hacking button if all words have been entered
+        let wordCheck = true;
+        for (let i = 0; i < words.length; i++)
+        {
+            if (!words[i])
+            {
+                wordCheck = false;
+                break;
+            }
+        }
+        setAllWordsEntered(wordCheck);
     });
     return (
         <p className= "App">
+            <h1 style = {greenText}>Fallout Terminal Solver</h1>
             <Grid container justify = {"center"} spacing = {0}>
                 <Grid>
         <Container component="main" maxWidth= "md">
         <div>
-            <h3  style = {greenText}>Upload Image of terminal</h3>
+            <h3  style = {greenText}>Upload Image of Terminal</h3>
             <input type = "file" accept = "image/png, image/jpg" onChange={uploadPicture}/>
             <div>{password ? <h1 style = {greenText}>{"Password found! It's " + password}</h1> : null}</div>
-            <h3  style = {greenText}>Or enter words manually</h3>
+            <h3  style = {greenText}>Or Enter Words Manually</h3>
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
                 <Grid xs = {12}>
                     <label  style = {greenText}>
-                    {"Word " + (index+1)}
+                    {(index+1)+"  "}
                         <WordInput updateWord = {updateWords} index = {index} />
                     </label>
                         {!isBeingEdited[index] && words[index].length !== 0
@@ -217,11 +230,13 @@ const Home = () => {
 
                 </Grid>
             ))}
-            <Grid>
-             <button  style = {greenText} onClick={findCommonWord}>Find word with most letters in common</button>
-                <button  style = {greenText} onClick = {addWord}>Add word</button>
-                <button  style = {greenText} onClick={removeWord}>Remove word</button>
-            </Grid>
+            <div>
+             <button class = "btn" disabled={!allWordsEntered} onClick={findCommonWord}>START HACKING</button>
+            </div>
+            <div>
+                <button class = "btn" onClick = {addWord}>ADD WORD</button>
+            </div>
+                <button class = "btn" onClick={removeWord}>REMOVE WORD</button>
             <div>
                 {guesses.map((item, index) =>
                     (
@@ -240,12 +255,12 @@ const Home = () => {
                 </Grid>
             <Grid item>
                 <Container>
-                    <h3 style = {greenText}>Possible passwords</h3>
+                    <h3 style = {greenText}>Possible Passwords</h3>
                     {possibleWords.map((item, index) =>
                         (
                             //allows each WordInput component to have an index
                                 <label  style = {{color: '#00ff10'}}>
-                                    {item + " "}
+                                    {item.toUpperCase() + " "}
                                 </label>
                         ))}
                 </Container>

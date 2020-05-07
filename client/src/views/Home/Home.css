@@ -29,3 +29,29 @@ text {
 .App-link {
     color: #09d3ac;
 }
+
+.btn {
+    border: none;
+    background-color: inherit;
+    padding: 2px 2px;
+    font-size: 16px;
+    display: inline-block;
+    font-family: monospace;
+    color: green;
+}
+
+/* On mouse-over */
+.btn:hover:enabled {background: green;
+    color: black;
+    cursor: pointer;
+}
+.btn:disabled
+{
+    color: dimgrey;
+}
+
+.success {color: green;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+.default {color: black;}
