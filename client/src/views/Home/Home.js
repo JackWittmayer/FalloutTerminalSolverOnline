@@ -209,14 +209,14 @@ const Home = () => {
         <Container component="main" maxWidth= "md">
         <div>
             <h3  style = {greenText}>Upload Image of Terminal</h3>
-            <input type = "file" accept = "image/png, image/jpg" onChange={uploadPicture}/>
+            <input class = "inpt" type = "file" accept = "image/png, image/jpg" onChange={uploadPicture}/>
             <div>{password ? <h1 style = {greenText}>{"Password found! It's " + password}</h1> : null}</div>
-            <h3  style = {greenText}>Or Enter Words Manually</h3>
+            <h3 style = {greenText}>Or Enter Words Manually</h3>
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
-                <Grid xs = {12}>
-                    <label  style = {greenText}>
+                <div>
+                    <label style = {greenText}>
                     {(index+1)+"  "}
                         <WordInput updateWord = {updateWords} index = {index} />
                     </label>
@@ -227,8 +227,7 @@ const Home = () => {
                         {!isBeingEdited[index] && words[index].length !== 0
                             && words[index].length > wordLength && index !==0 ?
                             <span style = {greenText}>Too long</span> : null}
-
-                </Grid>
+                </div>
             ))}
             <div>
              <button class = "btn" disabled={!allWordsEntered} onClick={findCommonWord}>START HACKING</button>
@@ -236,7 +235,9 @@ const Home = () => {
             <div>
                 <button class = "btn" onClick = {addWord}>ADD WORD</button>
             </div>
+            <div>
                 <button class = "btn" onClick={removeWord}>REMOVE WORD</button>
+            </div>
             <div>
                 {guesses.map((item, index) =>
                     (
@@ -277,7 +278,7 @@ const WordInput = (props) =>
         //update the word's state using the text entered and its index
         props.updateWord(e.target.value, props.index);
     };
-    return <input disabled = {props.disabled} onChange = {updateWord} type = "text"/>
+    return <input class = "inpt" disabled = {props.disabled} onChange = {updateWord} type = "text"/>
 };
 
 export default Home;
