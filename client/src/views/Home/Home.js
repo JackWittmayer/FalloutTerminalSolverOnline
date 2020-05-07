@@ -39,6 +39,7 @@ const Home = () => {
     const [likenesses, setLikenesses] = useState([0, 0, 0, 0]);
     const [likenessSubmitted, setLikenessSubmitted] = useState([false, false, false, false]);
     const [password, setPassword] = useState("");
+    const [possibleWords, setPossibleWords] = useState(["","","","", "","","","", "","","",""]);
 
     //all words should be the same length so keep track of this length and show errors for words that don't match it
     const [wordLength, setWordLength] = useState(0);
@@ -74,6 +75,10 @@ const Home = () => {
         const newEdits = [...isBeingEdited];
         newEdits.push(false);
         setIsBeingEdited(newEdits);
+
+        const newPossibleWords = [...possibleWords];
+        newPossibleWords.push("");
+        setPossibleWords(newPossibleWords);
     };
     const removeWord = () =>
     {
@@ -84,6 +89,10 @@ const Home = () => {
         const newEdits = [...isBeingEdited];
         newEdits.pop();
         setIsBeingEdited(newEdits);
+
+        const newPossibleWords = [...possibleWords];
+        newPossibleWords.pop();
+        setPossibleWords(newPossibleWords);
     };
     const findCommonWord = () =>
     {
@@ -141,6 +150,7 @@ const Home = () => {
         const newLikenessSubmitted = [...likenessSubmitted];
         newLikenessSubmitted[index] = true;
         setLikenessSubmitted(newLikenessSubmitted);
+        debugger;
         const possibleGuesses = findNextGuess(guesses, likenesses, words);
         if (possibleGuesses.length === 1)
         {
@@ -149,10 +159,12 @@ const Home = () => {
             setPassword(possibleGuesses[0]);
             return;
         }
-        const bestGuess = words[findHighestShareScore(findShareScores(possibleGuesses))];
+        const bestGuess = possibleGuesses[findHighestShareScore(findShareScores(possibleGuesses))];
         const newGuesses = [...guesses];
         newGuesses.push(bestGuess);
         setGuesses(newGuesses);
+
+        setPossibleWords(possibleGuesses);
     };
     const uploadPicture = (event) =>
     {
@@ -164,6 +176,11 @@ const Home = () => {
         if (picture)
         {
             findText();
+        }
+        //make possible words equal to every word if no likeness has been entered (nothing to filter by)
+        if (!likenessSubmitted[0])
+        {
+            setPossibleWords(words);
         }
     });
     return (
@@ -215,9 +232,16 @@ const Home = () => {
         </div>
         </Container>
                 </Grid>
-            <Grid>
+            <Grid item>
                 <Container>
-                    <h3 style = {{color: '#00ff10'}}>to the side</h3>
+                    <h3 style = {{color: '#00ff10'}}>Possible passwords</h3>
+                    {possibleWords.map((item, index) =>
+                        (
+                            //allows each WordInput component to have an index
+                                <label  style = {{color: '#00ff10'}}>
+                                    {item + " "}
+                                </label>
+                        ))}
                 </Container>
             </Grid>
             </Grid>
