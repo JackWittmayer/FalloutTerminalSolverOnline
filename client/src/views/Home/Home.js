@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import * as puzzleSolver from "../../puzzleSolver.js"
 import {findNextGuess} from "../../puzzleSolver";
 import Grid from '@material-ui/core/Grid';
-import * as tesseract from "tesseract.js";
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import './Home.css';
+const { createWorker, PSM } = require('tesseract.js');
 const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -47,6 +47,23 @@ const Home = () => {
     const [isBeingEdited, setIsBeingEdited] = useState([false,false,false,false]);
 
     const classes = useStyles();
+
+    const worker = createWorker({
+        langPath: '',
+        gzip: false,
+        logger: m => console.log(m)
+    });
+
+    const findText = async () =>
+    {
+        debugger;
+        await worker.load();
+        await worker.loadLanguage('Fallout');
+        await worker.initialize('Fallout');
+        const { data: { text } } = await worker.recognize(picture);
+        console.log(text);
+        await worker.terminate();
+    };
 
     const addWord = () =>
     {
@@ -137,21 +154,11 @@ const Home = () => {
         newGuesses.push(nextGuess);
         setGuesses(newGuesses);
     };
-    const onDrop = (picture) =>
+    const uploadPicture = (event) =>
     {
-        setPicture(picture[0]);
-        console.log(picture);
+        setPicture(event.target.files[0]);
     };
-    const findText = async () =>
-    {
-        tesseract.recognize(
-            picture,
-            'eng',
-            { logger: m => console.log(m) }
-        ).then(({ data: { text } }) => {
-            console.log(text);
-        })
-    };
+
     useEffect(() =>
     {
         if (picture)
@@ -164,6 +171,7 @@ const Home = () => {
         <Container component="main" maxWidth= "md">
         <div className={classes.paper}>
             <h3  style = {{color: '#00ff10'}}>Upload Image of terminal</h3>
+            <input type = "file" accept = "image/png, image/jpg" onChange={uploadPicture}/>
             <div>{password ? <h1 style = {{color: '#00ff10'}}>{"Password found! It's " + password}</h1> : null}</div>
             <h3  style = {{color: '#00ff10'}}>Or enter words manually</h3>
             {words.map((item, index) =>
