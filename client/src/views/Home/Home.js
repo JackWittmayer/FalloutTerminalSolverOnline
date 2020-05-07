@@ -34,7 +34,7 @@ const ArrayButton = (props) =>
 
 const Home = () => {
     const [picture, setPicture] = useState();
-    const [words, setWords] = useState(["","","",""]);
+    const [words, setWords] = useState(["","","","", "","","","", "","","",""]);
     const [guesses, setGuesses] = useState([]);
     const [likenesses, setLikenesses] = useState([0, 0, 0, 0]);
     const [likenessSubmitted, setLikenessSubmitted] = useState([false, false, false, false]);
@@ -168,8 +168,10 @@ const Home = () => {
     });
     return (
         <p className= "App">
+            <Grid container justify = {"center"} spacing = {0}>
+                <Grid>
         <Container component="main" maxWidth= "md">
-        <div className={classes.paper}>
+        <div>
             <h3  style = {{color: '#00ff10'}}>Upload Image of terminal</h3>
             <input type = "file" accept = "image/png, image/jpg" onChange={uploadPicture}/>
             <div>{password ? <h1 style = {{color: '#00ff10'}}>{"Password found! It's " + password}</h1> : null}</div>
@@ -212,6 +214,13 @@ const Home = () => {
             </div>
         </div>
         </Container>
+                </Grid>
+            <Grid>
+                <Container>
+                    <h3 style = {{color: '#00ff10'}}>to the side</h3>
+                </Container>
+            </Grid>
+            </Grid>
         </p>
     );
 };
