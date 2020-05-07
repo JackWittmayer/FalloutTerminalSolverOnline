@@ -32,6 +32,12 @@ const ArrayButton = (props) =>
     return <button disabled = {props.disabled} type = "button" onClick={submit}>Submit</button>
 };
 
+const greenText =
+{
+    color: "#00ff10",
+    fontFamily: 'Share Tech'
+};
+
 const Home = () => {
     const [picture, setPicture] = useState();
     const [words, setWords] = useState(["","","","", "","","","", "","","",""]);
@@ -189,40 +195,40 @@ const Home = () => {
                 <Grid>
         <Container component="main" maxWidth= "md">
         <div>
-            <h3  style = {{color: '#00ff10'}}>Upload Image of terminal</h3>
+            <h3  style = {greenText}>Upload Image of terminal</h3>
             <input type = "file" accept = "image/png, image/jpg" onChange={uploadPicture}/>
-            <div>{password ? <h1 style = {{color: '#00ff10'}}>{"Password found! It's " + password}</h1> : null}</div>
-            <h3  style = {{color: '#00ff10'}}>Or enter words manually</h3>
+            <div>{password ? <h1 style = {greenText}>{"Password found! It's " + password}</h1> : null}</div>
+            <h3  style = {greenText}>Or enter words manually</h3>
             {words.map((item, index) =>
             (
                 //allows each WordInput component to have an index
                 <Grid xs = {12}>
-                    <label  style = {{color: '#00ff10'}}>
+                    <label  style = {greenText}>
                     {"Word " + (index+1)}
                         <WordInput updateWord = {updateWords} index = {index} />
                     </label>
                         {!isBeingEdited[index] && words[index].length !== 0
                         && words[index].length < wordLength && index !==0 ?
-                            <span style = {{color: '#FF0000'}}>Too short</span> : null}
+                            <span style = {greenText}>Too short</span> : null}
 
                         {!isBeingEdited[index] && words[index].length !== 0
                             && words[index].length > wordLength && index !==0 ?
-                            <span style = {{color: '#FF0000'}}>Too long</span> : null}
+                            <span style = {greenText}>Too long</span> : null}
 
                 </Grid>
             ))}
             <Grid>
-             <button  style = {{color: '#00ff10'}} onClick={findCommonWord}>Find word with most letters in common</button>
-                <button  style = {{color: '#00ff10'}} onClick = {addWord}>Add word</button>
-                <button  style = {{color: '#00ff10'}} onClick={removeWord}>Remove word</button>
+             <button  style = {greenText} onClick={findCommonWord}>Find word with most letters in common</button>
+                <button  style = {greenText} onClick = {addWord}>Add word</button>
+                <button  style = {greenText} onClick={removeWord}>Remove word</button>
             </Grid>
             <div>
                 {guesses.map((item, index) =>
                     (
                         //allows each WordInput component to have an index
-                        <form style = {{color: '#00ff10'}}>
+                        <form style = {greenText}>
                             {"Click "+ guesses[index] + " and submit its likeness here:"}
-                            <label>
+                            <label style = {greenText}>
                                 <WordInput disabled = {likenessSubmitted[index]} updateWord = {updateLikenesses} index = {index} />
                             </label>
                             <ArrayButton disabled = {likenessSubmitted[index]} submit = {submitLikeness} index = {index}/>
@@ -234,7 +240,7 @@ const Home = () => {
                 </Grid>
             <Grid item>
                 <Container>
-                    <h3 style = {{color: '#00ff10'}}>Possible passwords</h3>
+                    <h3 style = {greenText}>Possible passwords</h3>
                     {possibleWords.map((item, index) =>
                         (
                             //allows each WordInput component to have an index
