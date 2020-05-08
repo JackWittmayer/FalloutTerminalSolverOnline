@@ -11,10 +11,13 @@ const App = () => {
       <Switch>
         <Route exact path="/Home" component={Home} />
         <Route exact path="/demo" component ={Demo}/>
-        <Route component={NotFound}/>
+          <Route exact path="/">
+              <Redirect to="/Home" />
+          </Route>
+        <Route component={Home}/>
       </Switch>
     </div>
   );
-}
+};
 
 export default App;

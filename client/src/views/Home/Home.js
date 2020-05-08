@@ -29,7 +29,7 @@ const ArrayButton = (props) =>
     {
         props.submit(props.index);
     };
-    return <button disabled = {props.disabled} type = "button" onClick={submit}>SUBMIT</button>
+    return <button class = "btn" disabled = {props.disabled} type = "button" onClick={submit}>SUBMIT</button>
 };
 
 const greenText =
