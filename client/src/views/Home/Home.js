@@ -57,14 +57,13 @@ const Home = () => {
     const classes = useStyles();
 
     const worker = createWorker({
-        langPath: '',
+        langPath: '..',
         gzip: false,
         logger: m => console.log(m)
     });
 
     const findText = async () =>
     {
-        debugger;
         await worker.load();
         await worker.loadLanguage('Fallout');
         await worker.initialize('Fallout');
@@ -157,7 +156,6 @@ const Home = () => {
         const newLikenessSubmitted = [...likenessSubmitted];
         newLikenessSubmitted[index] = true;
         setLikenessSubmitted(newLikenessSubmitted);
-        debugger;
         const possibleGuesses = findNextGuess(guesses, likenesses, words);
         if (possibleGuesses.length === 1)
         {
